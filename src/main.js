@@ -1,5 +1,7 @@
 // Только CSS (без JS-компонентов)
 import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+
 import './style.css' // Ваши кастомные стили
 
 document.querySelector('#app').innerHTML = `
