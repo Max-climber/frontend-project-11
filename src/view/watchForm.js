@@ -2,7 +2,7 @@
 import onChange from 'on-change';
 
 const renderError = (elements, error) => {
-  elements.input.classList.toggle('is-invalid', !!error);
+  elements.input.classList.toggle('is-invalid', !!error); // если есть error (выдаст true), то добавляем 'is-invalid'
   elements.feedback.textContent = error || '';
 };
 
