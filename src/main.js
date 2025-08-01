@@ -1,8 +1,6 @@
-// Только CSS (без JS-компонентов)
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'
-
 import './style.css' // Мои кастомные стили
+import 'bootstrap/dist/css/bootstrap.min.css'
+
 import validateUrl from './validation/schema.js';
 import watchForm from './view/watchForm.js';
 import i18nextInit from './locales/i18next';
