@@ -53,8 +53,16 @@ i18nextInit().then(() => {
       await validateUrl(state.form.feeds).validate({ url });
       state.form.feeds.push(url);
       state.form.error = null;
+      elements.feedback.classList.remove('text-danger');
+      elements.feedback.classList.add('text-success');
+
+      elements.feedback.textContent = i18next.t('success');
     } catch (err) {
       state.form.error = err.message;
+
+      elements.feedback.classList.remove('text-success');
+      elements.feedback.classList.add('text-danger');
+      elements.feedback.textContent = err.message;
     }
   });
 })
