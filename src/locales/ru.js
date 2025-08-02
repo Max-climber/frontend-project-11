@@ -2,7 +2,7 @@ export default {
   translation: {
     success: 'RSS успешно загружен',
     errors: {
-        invalidURl: 'Ссылка должна быть валидным URL',
+        invalidURl: 'Ресурс не содержит валидный RSS',
         dublicate: 'RSS уже существует',
     }
   }
