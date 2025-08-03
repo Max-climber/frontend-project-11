@@ -10,7 +10,7 @@ import i18next from 'i18next';
 i18nextInit().then(() => {
   yup.setLocale({
     mixed: {
-      required: () => i18next.t('errors.invalidURl'),
+      required: () => i18next.t('errors.required'),
       notOneOf: () => i18next.t('errors.dublicate'),
     },
     string: {
@@ -18,17 +18,6 @@ i18nextInit().then(() => {
     },
   });
 
-  const app = document.getElementById('app');
-  app.innerHTML = `
-    <form class="rss-form">
-      <div class="form-floating">
-        <input id="url-input" autofocus="" type="text" required="" name="url" aria-label="url" class="form-control w-100" placeholder="ссылка RSS" autocomplete="off">
-        <label for="url-input">Ссылка RSS</label>
-      </div>
-      <button type="submit" class="btn btn-primary mt-3">Добавить</button>
-      <div class="feedback text-danger mt-2 small"></div>
-    </form>
-  `;
 
   const elements = {
     form: document.querySelector('.rss-form'),
@@ -41,6 +30,7 @@ i18nextInit().then(() => {
     form: {
       error: null,
       feeds: [],
+      posts: [],
     },
   });
 
