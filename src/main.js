@@ -53,18 +53,20 @@ i18nextInit().then(() => {
       proxyURL.searchParams.append('disableCache', 'true') //отключаем кеш
       proxyURL.searchParams.append('url', url) 
 
-      const response = await axios.get(proxyURL)  // надо поменять на axios.get('url').then(что то делаешь внутри).catch(обрабатываешь ошибку), тк await нельзя использовать сейчас
-
-      const { feed, posts} = domParser(response.data.contents);
+      axios.get(proxyURL)
+        .then(response => {
+          console.log('Успешный ответ:', response.data);
+          const { feed, posts } = domParser(response.data.contents);
       
-      state.form.feeds.push(feed);
-      state.form.posts.push(...posts);
+          state.form.feeds.push(feed);
+          state.form.posts.push(...posts);
 
-      state.form.error = null;
-      elements.feedback.classList.remove('text-danger');
-      elements.feedback.classList.add('text-success');
+          state.form.error = null;
+          elements.feedback.classList.remove('text-danger');
+          elements.feedback.classList.add('text-success');
 
-      elements.feedback.textContent = i18next.t('success');
+          elements.feedback.textContent = i18next.t('success');
+        }) 
     } catch (err) {
       state.form.error = err.message;
 
