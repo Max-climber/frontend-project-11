@@ -28,7 +28,9 @@ i18nextInit().then(() => {
     feedback: document.querySelector('.feedback'),
     postsContainer: document.querySelector('.posts'),
     feedsContainer: document.querySelector('.feeds'),
-    modalContent: document.querySelector('.modal-content')
+    modalHeader: document.querySelector('.modal-header'),
+    modalBody: document.querySelector('.modal-body'),
+    modalFooter: document.querySelector('.modal-footer'),
   };
 
 
@@ -101,4 +103,14 @@ const updatePosts = () => {
       elements.feedback.textContent = err.message;
     }
   });
+})
+
+
+  const openModal = 
+  const modalContainer = 
+  const closeModal
+
+  openModal.addEventListener('click', () => {
+  alert('готовимся к модалке')
+ //тут рендеринг модалка 
 })

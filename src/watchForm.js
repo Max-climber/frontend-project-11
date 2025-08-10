@@ -27,16 +27,24 @@ const renderPosts = (elements, posts) => {
   posts.forEach((post) => {
     const li = document.createElement('li');
     li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
+
     const a = document.createElement('a');
     a.setAttribute('href', post.link);
     a.classList.add('fw-bold');
     a.setAttribute('target', '_blank');
     a.setAttribute('data-id', post.postId);
     a.setAttribute('rel', 'noopener noreferrer');
-
     a.textContent = post.title;
 
-    li.append(a);
+    const modalButton = document.createElement('button');
+    modalButton.classList.add('btn', 'btn-outline-primary', 'btn-sm');
+    modalButton.setAttribute('type', 'button');
+    modalButton.setAttribute('data-id', post.postId);
+    modalButton.setAttribute('data-bs-toggle', 'modal');
+    modalButton.setAttribute('data-bs-target', '#modal');
+    modalButton.textContent = 'Просмотр'
+
+    li.append(a, modalButton);
     ul.append(li);
   })
   
