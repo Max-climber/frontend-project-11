@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-export default (xmlString) => {
+ const domParser = (xmlString) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(xmlString, "text/xml") 
 
@@ -31,3 +31,4 @@ export default (xmlString) => {
 
    return { feed, posts };
 }   
+export default domParser

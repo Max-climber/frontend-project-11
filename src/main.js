@@ -7,7 +7,7 @@ import i18nextInit from './locales/i18next';
 import * as yup from 'yup';
 import i18next from 'i18next';
 import axios from 'axios';
-import domParser from './domParser.js';
+import DOMParser from './DOMParser.js';
 
 i18nextInit().then(() => {
   yup.setLocale({
@@ -53,7 +53,7 @@ i18nextInit().then(() => {
 
         return axios.get(proxyURL)
           .then((response) => {
-            const { posts } = domParser(response.data.contents);
+            const { posts } = DOMParser(response.data.contents);
             const newPosts = posts.filter((post) => !state.form.posts.some((existedPost) => existedPost.link === post.link))
 
             state.form.posts.push(...newPosts);
@@ -85,7 +85,7 @@ i18nextInit().then(() => {
         return axios.get(proxyURL)
       })
       .then((response) => {
-        const { feed, posts } = domParser(response.data.contents);
+        const { feed, posts } = DOMParser(response.data.contents);
 
         state.form.feeds.push({...feed, url});
         console.log(state.form.feeds);
