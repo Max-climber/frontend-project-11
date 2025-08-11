@@ -7,7 +7,7 @@ import i18nextInit from './locales/i18next';
 import * as yup from 'yup';
 import i18next from 'i18next';
 import axios from 'axios';
-import domParser from './domParser';
+import domParser from './domParser.js';
 
 i18nextInit().then(() => {
   yup.setLocale({
