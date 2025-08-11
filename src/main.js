@@ -1,6 +1,6 @@
 import './style.css' // Мои кастомные стили
 import 'bootstrap/dist/css/bootstrap.min.css'
-
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import validateUrl from './schema.js';
 import watchForm from './watchForm.js';
 import i18nextInit from './locales/i18next';
@@ -40,28 +40,29 @@ i18nextInit().then(() => {
       error: null,
       feeds: [],
       posts: [],
+      viewedPosts: [] //прочитанные посты
     },
   });
 
-// раз в 5 секунд проверяем каждый RSS-поток, и если он содержит новые посты, добавляем их в список
-const updatePosts = () => {
-  const request = state.form.feeds.map((feed) => {
-    const proxyURL = new URL('https://allorigins.hexlet.app/get')
-      proxyURL.searchParams.append('disableCache', 'true') //отключаем кеш
-      proxyURL.searchParams.append('url', feed.url) 
+  // раз в 5 секунд проверяем каждый RSS-поток, и если он содержит новые посты, добавляем их в список
+  const updatePosts = () => {
+    const request = state.form.feeds.map((feed) => {
+      const proxyURL = new URL('https://allorigins.hexlet.app/get')
+        proxyURL.searchParams.append('disableCache', 'true') //отключаем кеш
+        proxyURL.searchParams.append('url', feed.url) 
 
-      return axios.get(proxyURL)
-        .then((response) => {
-          const { posts } = domParser(response.data.contents);
-          const newPosts = posts.filter((post) => !state.form.posts.some((existedPost) => existedPost.link === post.link))
+        return axios.get(proxyURL)
+          .then((response) => {
+            const { posts } = domParser(response.data.contents);
+            const newPosts = posts.filter((post) => !state.form.posts.some((existedPost) => existedPost.link === post.link))
 
-          state.form.posts.push(...newPosts);
+            state.form.posts.push(...newPosts);
+          })
         })
-      })
-    
-      Promise.all(request)
-        .finally(() => setTimeout(updatePosts, 5000))
- }  
+      
+        Promise.all(request)
+         //.finally(() => setTimeout(updatePosts, 5000))
+  }  
 
   elements.form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -103,14 +104,26 @@ const updatePosts = () => {
       elements.feedback.textContent = err.message;
     }
   });
+
+  elements.postsContainer.addEventListener('click', (event) => {
+     
+    const button = event.target.closest('[data-bs-toggle="modal"]');
+
+    if(!button) return //клик не по кнопке "Просмотр"
+
+
+    const buttonId = button.getAttribute('data-id');
+    const post = state.form.posts.find((p) => p.postId === buttonId)
+    const h5ModalTitle = elements.modalHeader.querySelector('.modal-title')
+    h5ModalTitle.textContent = post.title
+
+    elements.modalBody.textContent = post.description
+    if (!state.form.viewedPosts.includes(post.postId)) {
+      state.form.viewedPosts.push(post.postId);
+    }
+    
+    const reedAllBtn = elements.modalFooter.querySelector('.btn', '.btn-primary', '.full-article'); // кнопка "Читать полоностью"
+    reedAllBtn.setAttribute('href', post.link)
+  })
 })
 
-
-  const openModal = 
-  const modalContainer = 
-  const closeModal
-
-  openModal.addEventListener('click', () => {
-  alert('готовимся к модалке')
- //тут рендеринг модалка 
-})

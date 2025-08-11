@@ -6,6 +6,7 @@ const renderError = (elements, error) => {
   elements.feedback.textContent = error || '';
 };
 
+
 const renderPosts = (elements, posts) => {
   elements.postsContainer.innerHTML = '';
 
@@ -36,13 +37,16 @@ const renderPosts = (elements, posts) => {
     a.setAttribute('rel', 'noopener noreferrer');
     a.textContent = post.title;
 
+    a.classList.toggle('fw-bold', !post.isViewed);
+    a.classList.toggle('fw-normal', post.isViewed)
+
     const modalButton = document.createElement('button');
     modalButton.classList.add('btn', 'btn-outline-primary', 'btn-sm');
     modalButton.setAttribute('type', 'button');
     modalButton.setAttribute('data-id', post.postId);
     modalButton.setAttribute('data-bs-toggle', 'modal');
     modalButton.setAttribute('data-bs-target', '#modal');
-    modalButton.textContent = 'Просмотр'
+    modalButton.textContent = "Просмотр"
 
     li.append(a, modalButton);
     ul.append(li);
@@ -50,9 +54,8 @@ const renderPosts = (elements, posts) => {
   
   divForPosts.append(cardBody);
   divForPosts.append(ul);
-  elements.postsContainer.appendChild(divForPosts);
+  elements.postsContainer.append(divForPosts);
 }
-
 const renderFeed = (elements, feeds) => {
   elements.feedsContainer.innerHTML = '';
   const divForFeed = document.createElement('div');
@@ -104,8 +107,10 @@ export default (elements, state) => {
       renderFeed(elements, state.form.feeds)
     }
 
-    if(path === 'form.posts') {
-      renderPosts(elements, state.form.posts)
+    if(path === 'form.posts' || path === 'form.viewedPosts') {
+      const postsWithFlags = state.form.posts.map((post) => ({ ...post, isViewed: state.form.viewedPosts.includes(post.postId) }));
+
+      renderPosts(elements, postsWithFlags)
     }
   });
 
