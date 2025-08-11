@@ -106,10 +106,15 @@ i18nextInit().then(() => {
         elements.input.focus();
       }) 
       .catch((err) => {
-        state.form.error = err.message;
+        if( err.message === 'parserError') {
+          state.form.error = i18next.t('errors.notRSSUrl')
+          console.log(state.form.error);
+        } else {
+          state.form.error = err.message;
+        }
         elements.feedback.classList.remove('text-success');
         elements.feedback.classList.add('text-danger');
-        elements.feedback.textContent = err.message;
+        elements.feedback.textContent = state.form.error;
       });
     } catch (err) {
       state.form.error = err.message;
