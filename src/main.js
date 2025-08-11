@@ -61,7 +61,12 @@ i18nextInit().then(() => {
         })
       
         Promise.all(request)
-         //.finally(() => setTimeout(updatePosts, 5000))
+        .catch((err) => {
+          console.log('ошибка в updatedPost:', err);
+         })
+         .finally(() => setTimeout(updatePosts, 5000))
+         
+         
   }  
 
   elements.form.addEventListener('submit', (e) => {
@@ -70,38 +75,49 @@ i18nextInit().then(() => {
     const url = formData.get('url').trim();
 
     try {
-      validateUrl(state.form.feeds).validate({ url });
-      //загружаем RSS с помощью прокси, парсим, обновляем состояние
-      const proxyURL = new URL('https://allorigins.hexlet.app/get')
-      proxyURL.searchParams.append('disableCache', 'true') //отключаем кеш
-      proxyURL.searchParams.append('url', url) 
+      validateUrl(state.form.feeds)
+      .validate({ url })
+      .then(() => {
+        const proxyURL = new URL('https://allorigins.hexlet.app/get')
+        proxyURL.searchParams.append('disableCache', 'true') //отключаем кеш
+        proxyURL.searchParams.append('url', url) 
 
-      axios.get(proxyURL)
-        .then(response => {
-          console.log('Успешный ответ:', response.data);
-          const { feed, posts } = domParser(response.data.contents);
+        return axios.get(proxyURL)
+      })
+      .then((response) => {
+        const { feed, posts } = domParser(response.data.contents);
 
-          state.form.feeds.push({...feed, url});
-          console.log(state.form.feeds);
-          state.form.posts.push(...posts);
+        state.form.feeds.push({...feed, url});
+        console.log(state.form.feeds);
+        state.form.posts.push(...posts);
 
 
-          state.form.error = null;
-          elements.feedback.classList.remove('text-danger');
-          elements.feedback.classList.add('text-success');
+        state.form.error = null;
+        elements.feedback.classList.remove('text-danger');
+        elements.feedback.classList.add('text-success');
 
-          elements.feedback.textContent = i18next.t('success');
+        elements.feedback.textContent = i18next.t('success');
 
-          if(state.form.feeds.length === 1) {
-            updatePosts();
-          }
-        }) 
+        if(state.form.feeds.length === 1) {
+          updatePosts();
+        }
+
+        elements.input.value = '';
+        elements.input.focus();
+      }) 
+      .catch((err) => {
+        state.form.error = err.message;
+        elements.feedback.classList.remove('text-success');
+        elements.feedback.classList.add('text-danger');
+        elements.feedback.textContent = err.message;
+      });
     } catch (err) {
       state.form.error = err.message;
 
       elements.feedback.classList.remove('text-success');
       elements.feedback.classList.add('text-danger');
       elements.feedback.textContent = err.message;
+      console.log('попали в блок ошибок', err);
     }
   });
 
