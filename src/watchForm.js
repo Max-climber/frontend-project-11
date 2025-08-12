@@ -1,5 +1,6 @@
 //Слой View (тот, где вотчеры)
 import onChange from 'on-change';
+import i18next from 'i18next';
 
 const renderError = (elements, error) => {
   elements.input.classList.toggle('is-invalid', !!error); // если есть error (выдаст true), то добавляем 'is-invalid'
@@ -46,7 +47,7 @@ const renderPosts = (elements, posts) => {
     modalButton.setAttribute('data-id', post.postId);
     modalButton.setAttribute('data-bs-toggle', 'modal');
     modalButton.setAttribute('data-bs-target', '#modal');
-    modalButton.textContent = "Просмотр"
+    modalButton.textContent = i18next.t('modalText.preview')
 
     li.append(a, modalButton);
     ul.append(li);

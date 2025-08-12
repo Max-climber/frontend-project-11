@@ -109,6 +109,9 @@ i18nextInit().then(() => {
         if( err.message === 'parserError') {
           state.form.error = i18next.t('errors.notRSSUrl')
           console.log(state.form.error);
+        } else if(err.code === 'ERR_NETWORK'){
+          state.form.error = i18next.t('errors.network')
+          console.log('находися в блоке ошибки сети');
         } else {
           state.form.error = err.message;
         }
@@ -143,7 +146,7 @@ i18nextInit().then(() => {
       state.form.viewedPosts.push(post.postId);
     }
     
-    const reedAllBtn = elements.modalFooter.querySelector('.btn', '.btn-primary', '.full-article'); // кнопка "Читать полоностью"
+    const reedAllBtn = elements.modalFooter.querySelector('.btn.btn-primary.full-article'); // кнопка "Читать полоностью"
     reedAllBtn.setAttribute('href', post.link)
   })
 })
