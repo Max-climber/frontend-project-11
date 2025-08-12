@@ -151,9 +151,9 @@ i18nextInit()
     if (reedAllBtn) {
       const linkHref = post.link
       reedAllBtn.setAttribute('href', linkHref)
-      reedAllBtn.addEventListener('keyup', (e) => {
-        if (e.keyCode === 13 || e.keyCode === 32) {
-        window.location.href = e.target.linkHref;
+      reedAllBtn.addEventListener('keyup', (event) => {
+        if (event.keyCode === 13 || event.keyCode === 32) {
+        window.location.href = event.target.linkHref;
       }
       })
     } 
