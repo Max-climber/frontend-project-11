@@ -12,6 +12,6 @@ export default [
     rules: {
       // Ваши правила
     },
-    ignores: ['dist/', 'node_modules/'] // Заменяет .eslintignore
+    ignores: ['dist', 'node_modules/'] // Заменяет .eslintignore
   }
 ];

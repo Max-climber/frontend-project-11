@@ -149,15 +149,13 @@ i18nextInit()
     
     const reedAllBtn = elements.modalFooter.querySelector('.btn.btn-primary.full-article'); // кнопка "Читать полоностью"
     if (reedAllBtn) {
-      reedAllBtn.setAttribute('href', post.link)
-    }
-    
-    
+      const linkHref = post.link
+      reedAllBtn.setAttribute('href', linkHref)
+      reedAllBtn.addEventListener('keyup', (e) => {
+        if (e.keyCode === 13 || e.keyCode === 32) {
+        window.location.href = e.target.linkHref;
+      }
+      })
+    } 
   })
 })
-
-function handleKeyUp (event) {
-      if (event.keyCode === 13 || event.keyCode === 32) {
-        window.location.href = event.target.href;
-      }
-}
