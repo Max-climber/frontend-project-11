@@ -9,7 +9,8 @@ import i18next from 'i18next';
 import axios from 'axios';
 import DOMParser from './DOMParser.js';
 
-i18nextInit().then(() => {
+i18nextInit()
+.then(() => {
   yup.setLocale({
     mixed: {
       required: () => i18next.t('errors.required'),
@@ -147,7 +148,16 @@ i18nextInit().then(() => {
     }
     
     const reedAllBtn = elements.modalFooter.querySelector('.btn.btn-primary.full-article'); // кнопка "Читать полоностью"
-    reedAllBtn.setAttribute('href', post.link)
+    if (reedAllBtn) {
+      reedAllBtn.setAttribute('href', post.link)
+    }
+    
+    
   })
 })
 
+function handleKeyUp (event) {
+      if (event.keyCode === 13 || event.keyCode === 32) {
+        window.location.href = event.target.href;
+      }
+}
